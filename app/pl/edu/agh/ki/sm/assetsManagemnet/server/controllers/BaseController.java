@@ -1,15 +1,11 @@
 package pl.edu.agh.ki.sm.assetsManagemnet.server.controllers;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.HeaderMissedException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.AuthenticationService;
 import play.libs.Json;
 import play.mvc.Controller;
-
-import java.io.IOException;
 
 /**
  * Created by Marcin on 21.

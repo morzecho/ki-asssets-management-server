@@ -24,4 +24,8 @@ public abstract class EntityService<E extends Entity, ED extends EntityDAO<E>> {
         return entity;
     }
 
+    public void save(E entity){
+        entityDAO().save(entity);
+    }
+
 }

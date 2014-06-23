@@ -37,7 +37,7 @@ public class UserService extends EntityService<User, UserDAO> {
         }
 
         user.generateToken();
-        userDAO.save(user);
+        save(user);
         sendEmailWithToken(user);
     }
 

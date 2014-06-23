@@ -28,7 +28,7 @@ public class IssuesController extends BaseController {
         authenticate();
 
         IssueDTO issueDTO = fromJson(IssueDTO.class);
-        issueService.createIssue(issueDTO);
+        issueService.createIssue(issueDTO, getHeader("token"));
 
         return ok();
     }

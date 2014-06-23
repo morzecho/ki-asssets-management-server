@@ -31,13 +31,15 @@ create table LOCATION (
   constraint pk_LOCATION primary key (id))
 ;
 
-create table MANAGEMENT_USER (
+create table ANDROID_USER (
   id                        bigint not null,
   EMAIL                     varchar(255) not null,
   TOKEN                     varchar(255) not null,
-  constraint uq_MANAGEMENT_USER_EMAIL unique (EMAIL),
-  constraint uq_MANAGEMENT_USER_TOKEN unique (TOKEN),
-  constraint pk_MANAGEMENT_USER primary key (id))
+  EXTERNAL_SYSTEM_ID        integer,
+  constraint uq_ANDROID_USER_EMAIL unique (EMAIL),
+  constraint uq_ANDROID_USER_TOKEN unique (TOKEN),
+  constraint uq_ANDROID_USER_EXTERNAL_SYSTEM_ unique (EXTERNAL_SYSTEM_ID),
+  constraint pk_ANDROID_USER primary key (id))
 ;
 
 create sequence ASSET_seq;
@@ -48,7 +50,7 @@ create sequence CATEGORY_seq;
 
 create sequence LOCATION_seq;
 
-create sequence MANAGEMENT_USER_seq;
+create sequence ANDROID_USER_seq;
 
 alter table ASSET add constraint fk_ASSET_location_1 foreign key (LOCATION_ID) references LOCATION (id);
 create index ix_ASSET_location_1 on ASSET (LOCATION_ID);
@@ -69,7 +71,7 @@ drop table if exists CATEGORY cascade;
 
 drop table if exists LOCATION cascade;
 
-drop table if exists MANAGEMENT_USER cascade;
+drop table if exists ANDROID_USER cascade;
 
 drop sequence if exists ASSET_seq;
 
@@ -79,5 +81,5 @@ drop sequence if exists CATEGORY_seq;
 
 drop sequence if exists LOCATION_seq;
 
-drop sequence if exists MANAGEMENT_USER_seq;
+drop sequence if exists ANDROID_USER_seq;
 

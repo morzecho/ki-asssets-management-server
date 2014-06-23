@@ -20,12 +20,13 @@ public class IssueService {
     @Autowired
     private UserService userService;
 
-    public void createIssue(IssueDTO issueDTO) {
-        issueTracker.createIssue(issueDTO);
+    public void createIssue(IssueDTO issueDTO, String userToken) {
+        User user = userService.getByToken(userToken);
+        issueTracker.createIssue(issueDTO, user);
     }
 
-    public List<IssueDTO> issuesForUserWithToken(String token) {
-        User user = userService.getByToken(token);
+    public List<IssueDTO> issuesForUserWithToken(String userToken) {
+        User user = userService.getByToken(userToken);
         return issueTracker.issuesForUser(user);
     }
 }
