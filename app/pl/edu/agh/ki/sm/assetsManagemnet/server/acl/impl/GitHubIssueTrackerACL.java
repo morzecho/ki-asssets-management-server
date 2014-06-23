@@ -12,10 +12,7 @@ import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.IssueStatus;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.UserService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -59,7 +56,8 @@ public class GitHubIssueTrackerACL implements IssueTrackerACL {
     }
 
     private GHMilestone createMilestonForUser(GHRepository ghRepository, User user) throws IOException {
-        GHMilestone milestone = ghRepository.createMilestone("FakeMilestone", "Fake milestone which represents user");
+        String milestoneTitle = "FakeMilestone " + UUID.randomUUID().toString();
+        GHMilestone milestone = ghRepository.createMilestone(milestoneTitle, "Fake milestone which represents user");
 
         user.updateExternalSystemId(milestone.getNumber());
         userService.save(user);
