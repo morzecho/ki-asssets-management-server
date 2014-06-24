@@ -1,7 +1,6 @@
 package pl.edu.agh.ki.sm.assetsManagemnet.server.daos;
 
 import com.avaje.ebean.Ebean;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.EntityNotFoundException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Entity;
 import play.db.ebean.Model;
 
