@@ -17,16 +17,11 @@ public class IssueService {
     @Autowired
     private IssueTrackerACL issueTracker;
 
-    @Autowired
-    private UserService userService;
-
-    public void createIssue(IssueDTO issueDTO, String userToken) {
-        User user = userService.getByToken(userToken);
+    public void createIssue(IssueDTO issueDTO, User user) {
         issueTracker.createIssue(issueDTO, user);
     }
 
-    public List<IssueDTO> issuesForUserWithToken(String userToken) {
-        User user = userService.getByToken(userToken);
+    public List<IssueDTO> issuesForUserWithToken(User user) {
         return issueTracker.issuesForUser(user);
     }
 }

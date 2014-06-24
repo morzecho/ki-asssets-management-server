@@ -3,6 +3,7 @@ package pl.edu.agh.ki.sm.assetsManagemnet.server.services.model;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.daos.EntityDAO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.EntityNotFoundException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Entity;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
 
 /**
  * Created by Marcin on 21.

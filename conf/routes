@@ -3,13 +3,15 @@
 # ~~~~
 
 # Home page
-GET         /                                        @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.Application.index()
+GET           /                                         @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.Application.index()
 
 # Android Application API
-GET         /android-api/assets/:id                  @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.AssetsController.assetById(id: Long)
-GET         /android-api/issues                      @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.IssuesController.issuesByUser()
-POST        /android-api/issues                      @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.IssuesController.createIssue()
-POST        /android-api/users/generate-token        @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.UsersController.generateToken()
+GET           /android-api/assets/:id                   @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.AssetsController.assetById(id: Long)
+GET           /android-api/issues                       @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.IssuesController.issuesByUser()
+POST          /android-api/issues                       @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.IssuesController.createIssue()
+POST          /android-api/users/token/new              @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.UsersController.generateToken()
+DELETE        /android-api/users/token                  @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.UsersController.deleteToken()
+GET           /android-api/users/token/validness        @pl.edu.agh.ki.sm.assetsManagemnet.server.controllers.androidApi.UsersController.checkIfTokenIsValid()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                            controllers.Assets.at(path="/public", file)
+GET           /assets/*file                             controllers.Assets.at(path="/public", file)

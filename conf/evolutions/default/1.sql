@@ -34,7 +34,7 @@ create table LOCATION (
 create table ANDROID_USER (
   id                        bigint not null,
   EMAIL                     varchar(255) not null,
-  TOKEN                     varchar(255) not null,
+  TOKEN                     varchar(255),
   EXTERNAL_SYSTEM_ID        integer,
   constraint uq_ANDROID_USER_EMAIL unique (EMAIL),
   constraint uq_ANDROID_USER_TOKEN unique (TOKEN),

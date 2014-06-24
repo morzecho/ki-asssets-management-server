@@ -3,6 +3,7 @@ package pl.edu.agh.ki.sm.assetsManagemnet.server.services.model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.daos.UserDAO;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.AuthorizationException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectDomainException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectEmailException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
@@ -59,11 +60,22 @@ public class UserService extends EntityService<User, UserDAO> {
         mailerService.sendEmail(user.getEmail(), subject, text);
     }
 
-    public boolean userWithTokenExists(String token) {
-        return getByToken(token) != null;
-    }
-
     public User getByToken(String token) {
         return userDAO.findByToken(token);
+    }
+
+    public User authenticate(String token){
+        User user = getByToken(token);
+
+        if(user == null){
+            throw new AuthorizationException();
+        }
+
+        return user;
+    }
+
+    public void deleteToken(User user) {
+        user.deleteToken();
+        save(user);
     }
 }

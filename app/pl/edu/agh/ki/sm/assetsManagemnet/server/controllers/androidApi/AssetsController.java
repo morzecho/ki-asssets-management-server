@@ -17,6 +17,10 @@ public class AssetsController extends BaseController {
     @Autowired
     private AssetService assetService;
 
+    public AssetsController() {
+        super();
+    }
+
     public Result assetById(Long id){
         authenticate();
 

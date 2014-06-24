@@ -14,7 +14,7 @@ public class User extends Entity {
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "TOKEN", nullable = false, unique = true)
+    @Column(name = "TOKEN", unique = true)
     private String token;
 
     @Column(name = "EXTERNAL_SYSTEM_ID", unique = true)
@@ -47,5 +47,9 @@ public class User extends Entity {
 
     public void updateExternalSystemId(Integer externalSystemId) {
         this.externalSystemId = externalSystemId;
+    }
+
+    public void deleteToken() {
+        token = null;
     }
 }
