@@ -1,4 +1,4 @@
-package pl.edu.agh.ki.sm.assetsManagemnet.server.controllers;
+package controllers.pl.edu.agh.ki.sm.assetsManagemnet.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;

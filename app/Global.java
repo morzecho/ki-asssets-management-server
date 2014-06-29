@@ -14,7 +14,7 @@ import play.mvc.Results;
 public class Global extends GlobalSettings {
 
     private static final String[] PACKAGES_TO_SCAN = new String[]{
-            "pl.edu.agh.ki.sm.assetsManagemnet.server.controllers",
+            "controllers.pl.edu.agh.ki.sm.assetsManagemnet.server",
             "pl.edu.agh.ki.sm.assetsManagemnet.server.daos",
             "pl.edu.agh.ki.sm.assetsManagemnet.server.services",
             "pl.edu.agh.ki.sm.assetsManagemnet.server.acl"
