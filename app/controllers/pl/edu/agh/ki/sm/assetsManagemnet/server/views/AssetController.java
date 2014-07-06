@@ -8,6 +8,7 @@ import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Category;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.AssetService;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.CategoryService;
 import play.data.Form;
+import play.db.ebean.Transactional;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.asset;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @Security.Authenticated(UserAuthenticator.class)
+@Transactional
 public class AssetController extends BaseController {
 
     @Autowired

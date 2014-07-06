@@ -1,6 +1,5 @@
 package pl.edu.agh.ki.sm.assetsManagemnet.server.services.model;
 
-import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.Application;
 import org.springframework.stereotype.Service;
 import play.Play;
 

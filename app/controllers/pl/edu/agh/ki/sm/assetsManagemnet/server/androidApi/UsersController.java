@@ -1,8 +1,9 @@
 package controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.androidApi;
 
+import com.avaje.ebean.annotation.Transactional;
+import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.AuthorizationException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectDomainException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectEmailException;
@@ -15,6 +16,7 @@ import play.mvc.Result;
  * Created by Marcin on 21.
  */
 @Controller
+@Transactional
 public class UsersController extends BaseController {
 
     @Autowired

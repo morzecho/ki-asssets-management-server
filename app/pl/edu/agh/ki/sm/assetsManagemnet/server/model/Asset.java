@@ -1,8 +1,8 @@
 package pl.edu.agh.ki.sm.assetsManagemnet.server.model;
 
+import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetView;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.AssetDTO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.AssetWithTypicalBreakDownsDTO;
-import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetView;
 
 import javax.persistence.*;
 

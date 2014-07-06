@@ -1,10 +1,11 @@
 package controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.androidApi;
 
+import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.AssetWithTypicalBreakDownsDTO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.AssetService;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Result;
 
@@ -13,6 +14,7 @@ import play.mvc.Result;
  * Created by Marcin on 20.
  */
 @Controller
+@Transactional
 public class AssetsController extends BaseController {
 
     @Autowired
