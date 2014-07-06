@@ -3,8 +3,8 @@ package controllers.pl.edu.agh.ki.sm.assetsManagemnet.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.HeaderMissedException;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.UserService;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.model.AndroidUser;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.AndroidUserService;
 import play.libs.Json;
 import play.mvc.Controller;
 
@@ -14,7 +14,7 @@ import play.mvc.Controller;
 public abstract class BaseController extends Controller {
 
     @Autowired
-    private UserService userService;
+    private AndroidUserService androidUserService;
 
     protected String getHeader(String header){
         String headerValue = request().getHeader(header);
@@ -26,9 +26,9 @@ public abstract class BaseController extends Controller {
         return headerValue;
     }
 
-    protected User authenticate(){
+    protected AndroidUser authenticateByToken(){
         String token = getHeader("token");
-        return userService.authenticate(token);
+        return androidUserService.authenticate(token);
     }
 
     protected <T> T fromJson(Class<T> tClass) {

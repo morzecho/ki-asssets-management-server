@@ -23,7 +23,7 @@ public class AssetsController extends BaseController {
     }
 
     public Result assetById(Long id){
-        authenticate();
+        authenticateByToken();
 
         AssetWithTypicalBreakDownsDTO assetWithTypicalBreakDowns = assetService.getByIdOrThrowException(id).toAssetWithTypicalBreakDownsDTO();
         return ok(Json.toJson(assetWithTypicalBreakDowns));

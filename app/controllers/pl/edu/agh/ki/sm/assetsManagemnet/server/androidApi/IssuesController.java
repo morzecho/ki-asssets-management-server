@@ -3,7 +3,7 @@ package controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.androidApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.model.AndroidUser;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.IssueDTO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.IssueService;
 import play.libs.Json;
@@ -27,18 +27,18 @@ public class IssuesController extends BaseController {
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result createIssue(){
-        User user = authenticate();
+        AndroidUser androidUser = authenticateByToken();
 
         IssueDTO issueDTO = fromJson(IssueDTO.class);
-        issueService.createIssue(issueDTO, user);
+        issueService.createIssue(issueDTO, androidUser);
 
         return ok();
     }
 
     public Result issuesByUser(){
-        User user = authenticate();
+        AndroidUser androidUser = authenticateByToken();
 
-        List<IssueDTO> issues = issueService.issuesForUserWithToken(user);
+        List<IssueDTO> issues = issueService.issuesForUserWithToken(androidUser);
 
         return ok(Json.toJson(issues));
     }

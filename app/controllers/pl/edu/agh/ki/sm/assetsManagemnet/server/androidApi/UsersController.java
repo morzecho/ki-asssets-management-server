@@ -6,8 +6,8 @@ import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.BaseController;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.AuthorizationException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectDomainException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.IncorrectEmailException;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.UserService;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.model.AndroidUser;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.AndroidUserService;
 import play.libs.Json;
 import play.mvc.Result;
 
@@ -18,7 +18,7 @@ import play.mvc.Result;
 public class UsersController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private AndroidUserService androidUserService;
 
     public UsersController() {
         super();
@@ -26,7 +26,7 @@ public class UsersController extends BaseController {
 
     public Result checkIfTokenIsValid() {
         try {
-            authenticate();
+            authenticateByToken();
             return ok(Json.toJson(TokenValidness.validToken));
         } catch (AuthorizationException e) {
             return ok(Json.toJson(TokenValidness.invalidToken));
@@ -49,15 +49,15 @@ public class UsersController extends BaseController {
     }
 
     public Result deleteToken() {
-        User user = authenticate();
+        AndroidUser androidUser = authenticateByToken();
 
-        userService.deleteToken(user);
+        androidUserService.deleteToken(androidUser);
         return ok();
     }
 
     public Result generateToken() throws IncorrectDomainException, IncorrectEmailException {
         String email = getHeader("email");
-        userService.generateTokenForUser(email);
+        androidUserService.generateTokenForUser(email);
         return ok();
     }
 

@@ -12,4 +12,8 @@ public class LocationDAO extends EntityDAO<Location> {
     public LocationDAO() {
         super(Location.class);
     }
+
+    public Location getByName(String locationName) {
+        return find().where().eq("LOCATION_NAME", locationName).findUnique();
+    }
 }

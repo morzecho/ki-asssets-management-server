@@ -1,0 +1,33 @@
+@(categories: List[pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryView])
+
+@import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.routes
+
+@main("Categories", "categoriesBrowse") {
+    <h2 class="sub-header">Categories</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Typical Break Downs</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(category <- categories){
+                    <tr>
+                        <th>@category.getName</th>
+                        <th>
+                            <ul>
+                                @for(breakDown <- category.getTypicalBreakDowns){
+                                    <li>@breakDown</li>
+                                }
+                            </ul>
+                        </th>
+                        <th><a class="btn btn-default" href="@routes.CategoryController.delete(category.getId)">Delete</a></th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

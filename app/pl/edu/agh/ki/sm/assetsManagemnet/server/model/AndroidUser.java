@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 @javax.persistence.Entity
 @Table(name = "ANDROID_USER")
-public class User extends Entity {
+public class AndroidUser extends Entity {
 
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
@@ -20,7 +20,7 @@ public class User extends Entity {
     @Column(name = "EXTERNAL_SYSTEM_ID", unique = true)
     private Integer externalSystemId;
 
-    public User(String email) {
+    public AndroidUser(String email) {
         this.email = email;
     }
 

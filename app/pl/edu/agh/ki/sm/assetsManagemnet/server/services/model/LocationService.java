@@ -12,10 +12,14 @@ import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Location;
 public class LocationService extends EntityService<Location, LocationDAO>{
 
     @Autowired
-    private LocationDAO locationRepository;
+    private LocationDAO locationDAO;
 
     @Override
     protected LocationDAO entityDAO() {
-        return locationRepository;
+        return locationDAO;
+    }
+
+    public Location getByName(String locationName) {
+        return locationDAO.getByName(locationName);
     }
 }

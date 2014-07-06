@@ -4,6 +4,8 @@ import com.avaje.ebean.Ebean;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Entity;
 import play.db.ebean.Model;
 
+import java.util.List;
+
 /**
  * Created by Marcin on 21.
  */
@@ -25,5 +27,13 @@ public abstract class EntityDAO<E extends Entity> {
 
     public void save(E entity){
         Ebean.save(entity);
+    }
+
+    public List<E> all(){
+        return finder.all();
+    }
+
+    public void delete(Long id) {
+        finder.ref(id).delete();
     }
 }

@@ -5,14 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.acl.IssueTrackerACL;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.ExternalSystemException;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.model.User;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.model.AndroidUser;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.AssetDTO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.IssueDTO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.androidDtos.IssueStatus;
-import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.UserService;
+import pl.edu.agh.ki.sm.assetsManagemnet.server.services.model.AndroidUserService;
+import play.Play;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,56 +26,79 @@ import java.util.stream.Stream;
 @Service
 public class GitHubIssueTrackerACL implements IssueTrackerACL {
 
-    private static final String GITHUB_TOKEN = "cebdc8a3c438f125fccd3276cf51797e88786b69";
-    private static final String GITHUB_REPOSITORY = "kiagh/assetsManagement";
+    private static final String GITHUB_TOKEN = Play.application().configuration().getString("github.token");
+    private static final String GITHUB_REPOSITORY = Play.application().configuration().getString("github.repositoryName");
     public static final String CATEGORY_PREFIX = "category: ";
     public static final String LOCATION_PREFIX = "location: ";
     public static final String ISSUE_NAME_INFIX = " in ";
 
     @Autowired
-    private UserService userService;
+    private AndroidUserService androidUserService;
 
     @Override
-    public void createIssue(IssueDTO issueDTO, User user) throws ExternalSystemException {
+    public void createIssue(IssueDTO issueDTO, AndroidUser androidUser) throws ExternalSystemException {
         try {
             GHRepository repository = getGhRepository();
             repository.createIssue(ghIssueName(issueDTO))
                     .body(issueDTO.getBreakDown())
                     .label(categoryToLabel(issueDTO))
                     .label(locationToLabel(issueDTO))
-                    .milestone(getUserMilestonOrCreateIfNotExists(repository, user))
+                    .milestone(getUserMilestonOrCreateIfNotExists(repository, androidUser))
                     .create();
         } catch (IOException e) {
             throw new ExternalSystemException("Exception while creating issue via GitHub Api", e);
         }
     }
 
-    private GHMilestone getUserMilestonOrCreateIfNotExists(GHRepository ghRepository, User user) throws IOException {
-        GHMilestone milestone = getUserMilestone(ghRepository, user);
+    private GHMilestone getUserMilestonOrCreateIfNotExists(GHRepository ghRepository, AndroidUser androidUser) throws IOException {
+        GHMilestone milestone = getUserMilestone(ghRepository, androidUser);
         if (milestone == null) {
-            milestone = createMilestonForUser(ghRepository, user);
+            milestone = createMilestonForUser(ghRepository, androidUser);
         }
 
         return milestone;
     }
 
-    private GHMilestone createMilestonForUser(GHRepository ghRepository, User user) throws IOException {
-        String milestoneTitle = "FakeMilestone " + UUID.randomUUID().toString();
+    private GHMilestone createMilestonForUser(GHRepository ghRepository, AndroidUser androidUser) throws IOException {
+        String milestoneTitle = androidUser.getEmail();
         GHMilestone milestone = ghRepository.createMilestone(milestoneTitle, "Fake milestone which represents user");
 
-        user.updateExternalSystemId(milestone.getNumber());
-        userService.save(user);
+        associateUserWithMilestone(androidUser, milestone);
 
         return milestone;
     }
 
-    private GHMilestone getUserMilestone(GHRepository ghRepository, User user) throws IOException {
-        Integer externalSystemId = user.getExternalSystemId();
-        if(externalSystemId == null){
-            return null;
+    private GHMilestone getUserMilestone(GHRepository ghRepository, AndroidUser androidUser) throws IOException {
+        Integer externalSystemId = androidUser.getExternalSystemId();
+        if (externalSystemId != null) {
+            return ghRepository.getMilestone(externalSystemId);
         }
 
-        return ghRepository.getMilestone(externalSystemId);
+
+        String email = androidUser.getEmail();
+        GHMilestone milestone = Optional.ofNullable(findMilestoneByEmail(ghRepository, GHIssueState.OPEN, email))
+                .orElse(findMilestoneByEmail(ghRepository, GHIssueState.CLOSED, email));
+
+        if (milestone != null) {
+            associateUserWithMilestone(androidUser, milestone);
+            return milestone;
+        }
+
+        return null;
+    }
+
+    private void associateUserWithMilestone(AndroidUser user, GHMilestone milestone) {
+        user.updateExternalSystemId(milestone.getNumber());
+        androidUserService.save(user);
+    }
+
+    private GHMilestone findMilestoneByEmail(GHRepository ghRepository, GHIssueState milestoneState, String email) {
+        for (GHMilestone milestone : ghRepository.listMilestones(milestoneState)) {
+            if (milestone.getTitle().equals(email)) {
+                return milestone;
+            }
+        }
+        return null;
     }
 
     private GHRepository getGhRepository() throws IOException {
@@ -86,7 +113,7 @@ public class GitHubIssueTrackerACL implements IssueTrackerACL {
     private String assetName(GHIssue ghIssue) {
         String[] splittedIssueName = ghIssue.getTitle().split(ISSUE_NAME_INFIX);
         if (splittedIssueName.length != 2) {
-            return "Unknown assets";
+            return "Unknown asset";
         }
         return splittedIssueName[0];
     }
@@ -99,7 +126,7 @@ public class GitHubIssueTrackerACL implements IssueTrackerACL {
         return fromLabel(ghIssue, CATEGORY_PREFIX, "Unknown category");
     }
 
-    private String fromLabel(GHIssue ghIssue, String prefixToFind, String defaultVal){
+    private String fromLabel(GHIssue ghIssue, String prefixToFind, String defaultVal) {
         Optional<String> categoryLabel = ghIssue.getLabels()
                 .stream()
                 .map(ghLabel -> ghLabel.getName())
@@ -119,10 +146,10 @@ public class GitHubIssueTrackerACL implements IssueTrackerACL {
     }
 
     @Override
-    public List<IssueDTO> issuesForUser(User user) {
+    public List<IssueDTO> issuesForUser(AndroidUser androidUser) {
         try {
             GHRepository repository = getGhRepository();
-            GHMilestone userMilestone = getUserMilestone(repository, user);
+            GHMilestone userMilestone = getUserMilestone(repository, androidUser);
 
             if (userMilestone == null) {
                 return Collections.emptyList();

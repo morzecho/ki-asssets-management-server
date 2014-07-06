@@ -3,8 +3,20 @@
 # ~~~~
 
 # Home page
-GET           /                                         @controllers.Application.index()
-GET           /login                                    @controllers.Application.login()
+GET           /                                         @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.Application.index()
+GET           /login                                    @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.Application.login()
+POST          /login                                    @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.Application.authenticate()
+GET           /logout                                   @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.Application.logout()
+
+GET           /assets                                   @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetController.all()
+GET           /assets/new                               @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetController.newAsset()
+POST          /assets                                   @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetController.createAsset()
+GET           /assets/:id/delete                        @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.AssetController.delete(id: Long)
+
+GET           /categories                               @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryController.all()
+GET           /categories/:id/delete                    @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryController.delete(id: Long)
+GET           /categories/new                           @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryController.newCategory()
+POST          /categories                               @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryController.createCategory()
 
 # Android Application API
 GET           /android-api/assets/:id                   @controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.androidApi.AssetsController.assetById(id: Long)

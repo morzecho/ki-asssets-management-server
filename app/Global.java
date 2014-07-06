@@ -1,4 +1,8 @@
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.httpMappings.BadRequest;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.httpMappings.Unauthorized;
 import play.Application;
@@ -38,8 +42,15 @@ public class Global extends GlobalSettings {
     }
 
     @Override
-    public <A> A getControllerInstance(Class<A> controllerClass) throws Exception {
-        return ctx.getBean(controllerClass);
+    public <A> A getControllerInstance(Class<A> clazz) {
+        if (clazz.isAnnotationPresent(Component.class)
+                || clazz.isAnnotationPresent(Controller.class)
+                || clazz.isAnnotationPresent(Service.class)
+                || clazz.isAnnotationPresent(Repository.class)) {
+            return ctx.getBean(clazz);
+        } else {
+            return null;
+        }
     }
 
     @Override

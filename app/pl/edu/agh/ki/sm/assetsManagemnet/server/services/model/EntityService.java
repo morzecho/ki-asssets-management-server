@@ -4,6 +4,8 @@ import pl.edu.agh.ki.sm.assetsManagemnet.server.daos.EntityDAO;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.exceptions.EntityNotFoundException;
 import pl.edu.agh.ki.sm.assetsManagemnet.server.model.Entity;
 
+import java.util.List;
+
 /**
  * Created by Marcin on 21.
  */
@@ -28,4 +30,11 @@ public abstract class EntityService<E extends Entity, ED extends EntityDAO<E>> {
         entityDAO().save(entity);
     }
 
+    public List<E> all(){
+        return entityDAO().all();
+    }
+
+    public void delete(Long id) {
+        entityDAO().delete(id);
+    }
 }

@@ -3,6 +3,8 @@ package pl.edu.agh.ki.sm.assetsManagemnet.server.model;
 import com.avaje.ebean.annotation.PrivateOwned;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
+import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryView;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -25,12 +27,11 @@ public class Category extends Entity {
 
     public Category(String name, List<String> typicalBreakDowns) {
         this.name = name;
-//        this.typicalBreakDowns = typicalBreakDowns
-//                .stream()
-//                .map(breakDown -> new BreakDown(breakDown))
-//                .collect(Collectors.toList());
-        //for stupid bug in eban class reader cannot use java8 stream !!!
-        this.typicalBreakDowns = FluentIterable.from(typicalBreakDowns)
+        this.typicalBreakDowns = breakDownsFromStringList(typicalBreakDowns);
+    }
+
+    private ImmutableList<BreakDown> breakDownsFromStringList(List<String> typicalBreakDowns) {
+        return FluentIterable.from(typicalBreakDowns)
                 .transform(new Function<String, BreakDown>() {
                     @Nullable
                     @Override
@@ -41,11 +42,12 @@ public class Category extends Entity {
                 .toList();
     }
 
+
     public String getName() {
         return name;
     }
 
-    public List<String> getTypicalBreakDowns() {
+    public ImmutableList<String> getTypicalBreakDowns() {
         return FluentIterable.from(typicalBreakDowns).transform(new Function<BreakDown, String>() {
             @Nullable
             @Override
@@ -53,5 +55,23 @@ public class Category extends Entity {
                 return bd.toString();
             }
         }).toList();
+    }
+
+    public CategoryView toView() {
+        CategoryView categoryView = new CategoryView();
+        categoryView.setId(getId());
+        categoryView.setName(name);
+        categoryView.setTypicalBreakDowns(getTypicalBreakDowns());
+        return categoryView;
+    }
+
+    public static Category fromView(CategoryView categoryView){
+        return new Category(categoryView.getName(), categoryView.getTypicalBreakDowns());
+    }
+
+    public void update(CategoryView categoryView){
+        name = categoryView.getName();
+        typicalBreakDowns.clear();;
+        typicalBreakDowns.addAll(breakDownsFromStringList(categoryView.getTypicalBreakDowns()));
     }
 }

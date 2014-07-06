@@ -1,0 +1,28 @@
+@(form: Form[pl.edu.agh.ki.sm.assetsManagemnet.server.views.CategoryView])
+
+@import controllers.pl.edu.agh.ki.sm.assetsManagemnet.server.views.routes
+
+@main("Category", "newCategory"){
+    <h2 class="sub-header">Category</h2>
+
+    @helper.form(action = routes.CategoryController.createCategory, 'class -> "form-horizontal"){
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Category Name" value="@form("name").value" required="required" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="breakDowns" class="col-sm-2 control-label">Typical Breakdowns</label>
+            <div class="col-sm-10">
+                <textarea type="textarea" class="form-control" name="typicalBreakDownsAsString" id="breakDowns" placeholder="Enter Break Downs, each in new line" value="@form("typicalBreakDownsAsString").value"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    }
+}
