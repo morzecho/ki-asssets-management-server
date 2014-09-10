@@ -1,4 +1,4 @@
-This is your new Play application
-=================================
+=Assets Management Server
 
-This file will be packaged with your application, when using `activator dist`.
+==Android APIAplikacja wystawia RESTfulowe API, za pomocą którego można pobierać listę dostępnych assetów, zgłaszać awarie, oraz śledzić stan zgłoszenia.
+ 
