@@ -1,4 +1,7 @@
-=Assets Management Server
+Assets Management Server
+=========================
 
-==Android APIAplikacja wystawia RESTfulowe API, za pomocą którego można pobierać listę dostępnych assetów, zgłaszać awarie, oraz śledzić stan zgłoszenia.
+# Android API
+
+Aplikacja wystawia RESTfulowe API, za pomocą którego można pobierać listę dostępnych assetów, zgłaszać awarie, oraz śledzić stan zgłoszenia.
  
