@@ -14,6 +14,22 @@ i w nagłówku "email" podać adres mailowy, na który ma zostać wysłany nowy 
 
 Wywołanie każdej następnej metody, będzie wymagało podanie headera `token'.
 
+## Usunięcie tokena
+```
+DELETE /android-api/users/token                  
+```
+
+## Sprawdzenie czy token jest poprawny
+```
+GET /android-api/users/token/validness
+```
+Odpowiedź:
+```
+{
+    "tokenValid": true
+}
+```
+
 ## Pobieranie inforamcji o assetach
 ```
 GET /android-api/assets/:id  
