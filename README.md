@@ -87,6 +87,7 @@ Przykładowa odpowiedź
         "lastModified": 1404681399000,
         "response": "Without response"
     }
+]
 ```
 
 ## Stworzenie awarii
@@ -112,3 +113,13 @@ Jako request body należy podać json, przykład:
 }
 ```
 oraz w headerze ustawić `"Content-Type" = "application/json"`
+
+# Integracja z issue trackerem
+Serwer do poprawnego działania wymaga integracji z issue trackerem. Aby taka dostarczyć, należy zaimplementować interfejs `IssueTrackerACL`. Obecnie serwer posiada intgacje z GitHubem.
+
+# Konfiguracja
+Konfiguracja serwera obejmuje:
+* konto administrator
+* serwer poczty wychodzącej
+* intgracje z issue trackerm
+Wszelkie ustawienia znajdują sie w pliku `application.conf`.
