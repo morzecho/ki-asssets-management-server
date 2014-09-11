@@ -10,9 +10,9 @@ Aby pobrać token wymagane jest posiadanie maila w domenia `agh.edu.pl`. Aby wyg
 ```
 POST /android-api/users/token/new
 ```
-i w nagłówku "email" podać adres mailowy, na który ma zostać wysłany nowy token.
+i w nagłówku `email` podać adres mailowy, na który ma zostać wysłany nowy token.
 
-Wywołanie każdej następnej metody, będzie wymagało podanie headera `token'.
+Wywołanie każdej następnej metody, będzie wymagało podanie headera `token`.
 
 ## Usunięcie tokena
 ```
@@ -111,4 +111,4 @@ Jako request body należy podać json, przykład:
     "response": "empty"
 }
 ```
-oraz w headerze ustawić "Content-Type" = "application/json"
+oraz w headerze ustawić `"Content-Type" = "application/json"`
