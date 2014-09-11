@@ -122,4 +122,5 @@ Konfiguracja serwera obejmuje:
 * konto administrator
 * serwer poczty wychodzącej
 * intgracje z issue trackerm
+
 Wszelkie ustawienia znajdują sie w pliku `application.conf`.
